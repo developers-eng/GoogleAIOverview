@@ -341,7 +341,7 @@ class GoogleScraperService {
       // Add longer random delay to avoid detection
       const randomDelay = Math.floor(Math.random() * 3000) + 2000; // 2-5 seconds
       console.log(`⏳ Initial delay: ${randomDelay}ms`);
-      await page.waitForTimeout(randomDelay);
+      await new Promise(resolve => setTimeout(resolve, randomDelay));
       
       console.log(`Navigating to: ${searchUrl}`);
       
@@ -356,7 +356,7 @@ class GoogleScraperService {
       await page.mouse.move(Math.random() * 100, Math.random() * 100);
       const homepageDelay = Math.floor(Math.random() * 2000) + 3000; // 3-5 seconds
       console.log(`⏳ Homepage delay: ${homepageDelay}ms`);
-      await page.waitForTimeout(homepageDelay);
+      await new Promise(resolve => setTimeout(resolve, homepageDelay));
       
       // Then navigate to search results
       console.log('ℹ️ Step 2: Performing search...');
@@ -368,7 +368,7 @@ class GoogleScraperService {
       // Wait longer for dynamic content to load
       const contentDelay = Math.floor(Math.random() * 2000) + 4000; // 4-6 seconds
       console.log(`⏳ Content loading delay: ${contentDelay}ms`);
-      await page.waitForTimeout(contentDelay);
+      await new Promise(resolve => setTimeout(resolve, contentDelay));
       
       // Add some mouse movement to simulate human behavior
       await page.mouse.move(Math.random() * 200, Math.random() * 200);
