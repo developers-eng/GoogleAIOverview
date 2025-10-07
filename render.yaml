@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ai-overview-api
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HEADLESS_MODE
+        value: true
+      - key: PORT
+        value: 10000
+      - key: TIMEOUT_MS
+        value: 30000
+    scaling:
+      minInstances: 1
+      maxInstances: 3
