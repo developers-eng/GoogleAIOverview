@@ -4,41 +4,15 @@ PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
 PUPPETEER_EXECUTABLE_PATH = "/usr/bin/google-chrome-stable"
 
 [phases.setup]
-dependsOn = []
 nixPkgs = [
     "nodejs_18",
-    "npm-9_x", 
-    "google-chrome",
-    "nss",
-    "freetype",
-    "harfbuzz",
-    "ca-certificates",
-    "ttf_fonts"
-]
-
-# Configure Puppeteer to use system Chrome
-nixLibs = [
-    "nss",
-    "freetype", 
-    "harfbuzz",
-    "ca-certificates"
+    "google-chrome"
 ]
 
 [phases.install]
-dependsOn = ["setup"]
-# Use npm ci for faster, reliable installs in production
 cmds = [
-    "npm ci --only=production --no-audit --no-fund --silent"
+    "npm ci --only=production --no-audit --no-fund"
 ]
-
-[phases.build]
-dependsOn = ["install"] 
-# No build step needed for this project
-cmds = []
 
 [start]
 cmd = "npm start"
-
-# Enable process restart on failure
-[start.runImage]
-name = "gcr.io/distroless/nodejs18-debian11"
