@@ -13,6 +13,21 @@ if (typeof globalThis.File === 'undefined') {
   };
 }
 
+// Set Puppeteer launch arguments for Railway environment
+process.env.PUPPETEER_ARGS = [
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-dev-shm-usage',
+  '--disable-accelerated-2d-canvas',
+  '--no-first-run',
+  '--no-zygote',
+  '--single-process',
+  '--disable-gpu',
+  '--headless=new',
+  '--disable-web-security',
+  '--disable-features=VizDisplayCompositor'
+].join(' ');
+
 // Set up __dirname and __filename for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

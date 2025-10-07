@@ -22,14 +22,20 @@ class GoogleScraperService {
       
       this.browser = await puppeteer.launch({
         headless: process.env.HEADLESS_MODE === 'true' ? 'new' : false,
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
         args: [
           '--no-sandbox',
-          '--disable-setuid-sandbox',
+          '--disable-setuid-sandbox', 
           '--disable-dev-shm-usage',
-          '--disable-blink-features=AutomationControlled',
-          '--disable-features=VizDisplayCompositor',
+          '--disable-accelerated-2d-canvas',
           '--no-first-run',
+          '--no-zygote',
+          '--single-process',
           '--disable-gpu',
+          '--headless=new',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor',
+          '--disable-blink-features=AutomationControlled',
           '--disable-background-timer-throttling',
           '--disable-backgrounding-occluded-windows',
           '--disable-renderer-backgrounding',
@@ -39,7 +45,12 @@ class GoogleScraperService {
           '--no-default-browser-check',
           '--no-pings',
           '--disable-client-side-phishing-detection',
-          '--disable-component-extensions-with-background-pages'
+          '--disable-component-extensions-with-background-pages',
+          '--disable-ipc-flooding-protection',
+          '--disable-hang-monitor',
+          '--disable-prompt-on-repost',
+          '--disable-domain-reliability',
+          '--disable-background-networking'
         ],
         timeout: 60000
       });
