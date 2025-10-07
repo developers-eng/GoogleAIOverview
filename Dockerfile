@@ -1,5 +1,5 @@
-# Use Railway's optimized Node.js image
-FROM node:18-alpine
+# Use Railway's optimized Node.js image  
+FROM node:20-alpine
 
 # Install only essential dependencies
 RUN apk add --no-cache \
@@ -31,4 +31,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "start.js"]
