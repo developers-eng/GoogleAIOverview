@@ -20,40 +20,73 @@ class GoogleScraperService {
         }
       }
       
-      this.browser = await puppeteer.launch({
-        headless: process.env.HEADLESS_MODE === 'true' ? 'new' : false,
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox', 
-          '--disable-dev-shm-usage',
-          '--disable-accelerated-2d-canvas',
-          '--no-first-run',
-          '--no-zygote',
-          '--single-process',
-          '--disable-gpu',
-          '--headless=new',
-          '--disable-web-security',
-          '--disable-features=VizDisplayCompositor',
-          '--disable-blink-features=AutomationControlled',
-          '--disable-background-timer-throttling',
-          '--disable-backgrounding-occluded-windows',
-          '--disable-renderer-backgrounding',
-          '--disable-default-apps',
-          '--disable-extensions',
-          '--disable-sync',
-          '--no-default-browser-check',
-          '--no-pings',
-          '--disable-client-side-phishing-detection',
-          '--disable-component-extensions-with-background-pages',
-          '--disable-ipc-flooding-protection',
-          '--disable-hang-monitor',
-          '--disable-prompt-on-repost',
-          '--disable-domain-reliability',
-          '--disable-background-networking'
-        ],
-        timeout: 60000
-      });
+      console.log('🚀 Launching browser for Railway environment...');
+      
+      // Try different launch configurations for better compatibility
+      const launchConfigs = [
+        // Primary config for Railway
+        {
+          name: 'Railway Optimized',
+          config: {
+            headless: 'new',
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox', 
+              '--disable-dev-shm-usage',
+              '--disable-accelerated-2d-canvas',
+              '--no-first-run',
+              '--no-zygote',
+              '--single-process',
+              '--disable-gpu',
+              '--disable-web-security',
+              '--disable-features=VizDisplayCompositor',
+              '--memory-pressure-off',
+              '--disable-crash-reporter',
+              '--disable-logging'
+            ],
+            timeout: 30000,
+            protocolTimeout: 30000,
+            dumpio: false
+          }
+        },
+        // Fallback config
+        {
+          name: 'Minimal Fallback',
+          config: {
+            headless: 'new',
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--single-process'
+            ],
+            timeout: 20000
+          }
+        }
+      ];
+      
+      let lastError = null;
+      for (const { name, config } of launchConfigs) {
+        try {
+          console.log(`🔧 Trying browser launch: ${name}`);
+          this.browser = await puppeteer.launch(config);
+          console.log('✅ Browser launched successfully!');
+          break;
+        } catch (error) {
+          console.error(`❌ ${name} failed:`, error.message);
+          lastError = error;
+          if (this.browser) {
+            try { await this.browser.close(); } catch (e) {}
+            this.browser = null;
+          }
+        }
+      }
+      
+      if (!this.browser) {
+        throw new Error(`Failed to launch browser with all configurations. Last error: ${lastError?.message}`);
+      }
       
       // Additional stealth measures
       const pages = await this.browser.pages();
