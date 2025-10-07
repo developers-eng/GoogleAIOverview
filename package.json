@@ -1,0 +1,32 @@
+{
+  "name": "ai-overview-api",
+  "version": "1.0.0",
+  "description": "Lightweight API for scraping Google AI Overview results",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^21.5.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "dotenv": "^16.3.1",
+    "user-agents": "^1.1.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": [
+    "google",
+    "ai-overview",
+    "web-scraping",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
