@@ -1,12 +1,12 @@
 [variables]
 NODE_ENV = "production"
 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
-PUPPETEER_EXECUTABLE_PATH = "/usr/bin/google-chrome-stable"
+PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium-browser"
 
 [phases.setup]
 nixPkgs = [
     "nodejs_20",
-    "google-chrome"
+    "chromium"
 ]
 
 [phases.install]

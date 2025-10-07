@@ -64,6 +64,31 @@ class GoogleScraperService {
             ],
             timeout: 20000
           }
+        },
+        // Ultra-minimal last resort
+        {
+          name: 'Ultra-Minimal',
+          config: {
+            headless: true,
+            args: [
+              '--no-sandbox',
+              '--disable-dev-shm-usage'
+            ],
+            timeout: 15000
+          }
+        },
+        // Let Puppeteer download Chrome
+        {
+          name: 'Puppeteer Default Chrome',
+          config: {
+            headless: true,
+            args: [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage'
+            ],
+            timeout: 30000
+          }
         }
       ];
       
